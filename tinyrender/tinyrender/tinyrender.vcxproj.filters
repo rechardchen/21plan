@@ -15,15 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\code\stb_image.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="..\code\tImage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\code\tTGAImage.cpp">
+    <ClCompile Include="..\code\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\code\tTGAImage.h">
+    <ClInclude Include="..\code\tImage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\tCommon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\tMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
