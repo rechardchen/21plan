@@ -121,10 +121,12 @@
   <ItemGroup>
     <ClCompile Include="..\code\main.cpp" />
     <ClCompile Include="..\code\stb_image.cpp" />
+    <ClCompile Include="..\code\tGL.cpp" />
     <ClCompile Include="..\code\tImage.cpp" />
     <ClCompile Include="..\code\tModel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\code\tGL.h" />
     <ClInclude Include="..\code\tImage.h" />
     <ClInclude Include="..\code\tCommon.h" />
     <ClInclude Include="..\code\tMath.h" />

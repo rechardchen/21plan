@@ -24,6 +24,12 @@
     <ClCompile Include="..\code\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\code\tModel.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\tGL.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\code\tImage.h">
@@ -33,6 +39,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\code\tMath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\tModel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\tGL.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

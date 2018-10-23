@@ -1,4 +1,6 @@
 #pragma once
+#include <cmath>
+//TODO: implement glsl
 
 namespace TR
 {
@@ -6,13 +8,77 @@ namespace TR
 	struct Vec
 	{
 		Vec() = default;
-		T& operator[](size_t i) { return mData[i]; }
-		const T& operator[] (size_t i) const { return mData[i]; }
+
+		T& operator[](size_t i) { return m[i]; }
+		const T& operator[] (size_t i) const { return m[i]; }
+		
+		float length() const 
+		{
+			float r = 0.f;
+			for (auto v : m)
+			{
+				r += v * v;
+			}
+			return sqrtf(r);
+		}
+
+		Vec<DIM,T> normalize() const
+		{
+			return *this * (1 / length());
+		}
 
 		T m[DIM];
 	};
 
+	//Vec2,3,4
+	template<typename T>
+	struct Vec<2, T>
+	{
+		Vec() = default;
+		Vec(T x, T y) : x(x), y(y) {}
+
+		T& operator[](size_t i) { return (&x)[i]; }
+		const T& operator[](size_t i) const { return (&x)[i]; }
+
+		float length() const { return sqrtf(x*x + y * y); }
+		T x, y;
+	};
+
+	template<typename T>
+	struct Vec<3, T>
+	{
+		Vec() = default;
+		Vec(T x, T y, T z) :x(x), y(y), z(z) {}
+
+		T& operator[](size_t i) { return (&x)[i]; }
+		const T& operator[](size_t i) const { return (&x)[i]; }
+
+		float length()const { return sqrtf(x*x + y * y + z * z); }
+
+		T x, y, z;
+	};
+
+	template<typename T>
+	struct Vec<4, T>
+	{
+		Vec() = default;
+		Vec(T x, T y, T z, T w) :x(x), y(y), z(z), w(w) {}
+
+		T& operator[](size_t i) { return (&x)[i]; }
+		const T& operator[](size_t i) const { return (&x)[i]; }
+
+		float length()const { return sqrtf(x*x + y * y + z * z + w*w); }
+
+		T x, y, z, w;
+	};
+
 	// Vector operators
+	template<size_t DIM, typename T>
+	Vec<DIM, T> normalize(const Vec<DIM, T>& v)
+	{
+		return v * (1 / v.length());
+	}
+
 	template<size_t DIM, typename T>
 	Vec<DIM, T> operator*(const Vec<DIM, T>& lhs, const Vec<DIM, T>& rhs)
 	{
@@ -186,7 +252,7 @@ namespace TR
 		}
 		return ret;
 	}
-	template<size_t LEN,size_t DIM, typename T>
+	template<size_t LEN, size_t DIM, typename T>
 	Vec<LEN, T> proj(const Vec<DIM, T>& v)
 	{
 		Vec<LEN, T> ret;
@@ -197,31 +263,6 @@ namespace TR
 		return ret;
 	}
 
-	//Vec2,3,4
-	template<typename T>
-	struct Vec<2, T>
-	{
-		Vec() = default;
-		Vec(T x, T y) : x(x), y(y) {}
-
-		T& operator[](size_t i) { return i == 0 ? x : y; }
-		const T& operator[](size_t i) const { return i == 0 ? x : y; }
-		T x, y;
-	};
-
-	template<typename T>
-	struct Vec<3, T>
-	{
-		Vec() = default;
-		Vec(T x, T y, T z) :x(x), y(y), z(z) {}
-
-		T& operator[](size_t i) { return i == 0 ? x : i == 1 ? y : z; }
-		const T& operator[](size_t i) const {
-			return i == 0 ? x : i == 1 ? y : z;
-		}
-
-		T x, y, z;
-	};
 
 	template<typename T>
 	Vec<3, T> cross(const Vec<3, T>& v1, const Vec<3, T>& v2)
