@@ -34,8 +34,8 @@ bool SimpleShader::Fragment(Vec3f bar, struct Color& color)
 
 int main(int argc, char* argv[])
 {
-	const int WIDTH = 960;
-	const int HEIGHT = 640;
+	const int WIDTH = 800;
+	const int HEIGHT = 800;
 
 	Image img(WIDTH, HEIGHT, Image::RGB);
 	float *zbuffer = (float*)TMalloc(sizeof(float)*WIDTH*HEIGHT);
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 	}
 
 	model = new Model(argv[1]);
-	viewMatrix = LookAt(Vec3f(1, 1, 3), Vec3f(0, 0, 0), Vec3f(0, 1, 0));
+	viewMatrix = LookAt(Vec3f(1,1, -3), Vec3f(0, 0, 0), Vec3f(0, 1, 0));
 	projMatrix = Frustum(-1, 1, 1, -1, 1, 100);
 
 	Mat4 viewPort = Viewport(0, 0, WIDTH, HEIGHT);

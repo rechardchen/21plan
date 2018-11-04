@@ -79,8 +79,8 @@ namespace TR
 		pts2[1] = proj<2>(pts[1]) / pts[1][3];
 		pts2[2] = proj<2>(pts[2]) / pts[2][3];
 
-		Vec2i bbMax(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
-		Vec2i bbMin(std::numeric_limits<int>::min(), std::numeric_limits<int>::min());
+		Vec2i bbMax(std::numeric_limits<int>::min(), std::numeric_limits<int>::min());
+		Vec2i bbMin(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
 		for (int i = 0; i < 3; ++i)
 		{
 			bbMin.x = std::max<int>(0, std::min<int>(bbMin.x, pts2[i].x));
