@@ -9,6 +9,11 @@ namespace TR
 		unsigned char rgba[4];
 		unsigned char bytespp;	//bytes per pixel
 
+		Color() : bytespp(1)
+		{
+			memset(&rgba, 0, sizeof(rgba));
+		}
+
 		Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) :bytespp(4)
 		{
 			rgba[0] = r;

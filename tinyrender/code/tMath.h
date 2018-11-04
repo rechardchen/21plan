@@ -4,6 +4,9 @@
 
 namespace TR
 {
+	//constants
+	const float Epsilon = 1e-5f;
+
 	template<size_t DIM, typename T>
 	struct Vec
 	{
@@ -365,7 +368,7 @@ namespace TR
 		}
 		Mat<NCOL, NROW, T> transpose() const
 		{
-			Mat<NCOL, NROW> ret;
+			Mat<NCOL, NROW,T> ret;
 			for (size_t r = 0; r < NCOL; ++r)
 			{
 				for (size_t c = 0; c < NROW; ++c)

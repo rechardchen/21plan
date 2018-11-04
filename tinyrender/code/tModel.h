@@ -9,7 +9,7 @@ namespace TR
 	{
 	public:
 		Model(const char* filename);
-		~Model();
+		~Model() {}
 
 		size_t nverts() const { return mVertices.size(); }
 		size_t nfaces() const { return mFaces.size(); }
