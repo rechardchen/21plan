@@ -98,11 +98,13 @@ namespace TR
 	{
 		if (mDiffuseMap.GetWidth() && mDiffuseMap.GetHeight())
 		{
+			double val;
+			uvf[0] = modf(uvf[0], &val);
+			uvf[1] = modf(uvf[1], &val);
 			Vec2i uv(uvf[0] * mDiffuseMap.GetWidth(), uvf[1] * mDiffuseMap.GetHeight());
-			uv.x = clamp(uv.x, 0, mDiffuseMap.GetWidth() - 1);
-			uv.y = clamp(uv.y, 0, mDiffuseMap.GetHeight() - 1);
-			return mDiffuseMap.Get(uv.x, uv.y);
+			return mDiffuseMap.Get(uv[0], uv[1]);
 		}
+		
 		return Color(255, 255, 255, 255);
 	}
 

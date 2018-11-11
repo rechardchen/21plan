@@ -12,6 +12,7 @@ namespace TR
 	{
 		virtual Vec4f Vert(int nface, int nthvert) = 0;
 		virtual bool Fragment(Vec3f bar, struct Color& color) = 0;
+		Mat<4, 3, float> varying_tri;
 	};
 
 	//rasterizer

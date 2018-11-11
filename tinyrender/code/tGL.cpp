@@ -28,6 +28,8 @@ namespace TR
 		ret[0][3] = x + halfW;
 		ret[1][1] = halfH;
 		ret[1][3] = y + halfH;
+		ret[2][2] = .5f;
+		ret[2][3] = .5f;
 
 		return ret;
 	}
@@ -39,7 +41,7 @@ namespace TR
 
 		mat[0][0] = 2 * n / (r - l);
 		mat[0][2] = (r + l) / (r - l);
-		mat[1][2] = 2 * n / (t - b);
+		mat[1][1] = 2 * n / (t - b);
 		mat[1][2] = (t + b) / (t - b);
 		mat[2][2] = -(f + n) / (f - n);
 		mat[2][3] = -2 * f*n / (f - n);
@@ -53,7 +55,7 @@ namespace TR
 	{
 		auto backward = normalize(eye - center);
 		auto right = normalize(cross(up, backward));
-		up = cross(backward, right);
+		up = normalize(cross(backward, right));
 
 		Mat3 R;
 		R[0] = right;
@@ -66,8 +68,48 @@ namespace TR
 		m[0] = Vec4f(R[0][0], R[0][1], R[0][2], _Rc[0]);
 		m[1] = Vec4f(R[1][0], R[1][1], R[1][2], _Rc[1]);
 		m[2] = Vec4f(R[2][0], R[2][1], R[2][2], _Rc[2]);
-
 		return m;
+
+		//Vec3f z = normalize((eye - center));
+		//Vec3f x = normalize(cross(up, z));
+		//Vec3f y = (cross(z, x));
+		//Mat4 Minv = Mat4::identity();
+		//Mat4 Tr = Mat4::identity();
+		//for (int i = 0; i<3; i++) {
+		//	Minv[0][i] = x[i];
+		//	Minv[1][i] = y[i];
+		//	Minv[2][i] = z[i];
+		//	Tr[i][3] = -eye[i];
+		//}
+		//return Minv * Tr;
+
+		//Vec3f f = normalize((center - eye));
+		//Vec3f u = normalize(up);
+		//Vec3f s = normalize(cross(f, u));
+		//u = cross(s, f);
+
+		//Mat4 ModelView;
+		//ModelView[0][0] = s.x;
+		//ModelView[0][1] = s.y;
+		//ModelView[0][2] = s.z;
+
+		//ModelView[1][0] = u.x;
+		//ModelView[1][1] = u.y;
+		//ModelView[1][2] = u.z;
+
+		//ModelView[2][0] = -f.x;
+		//ModelView[2][1] = -f.y;
+		//ModelView[2][2] = -f.z;
+
+		//ModelView[3][0] = 0.f;
+		//ModelView[3][1] = 0.f;
+		//ModelView[3][2] = 0.f;
+
+		//ModelView[0][3] = -(s[0] * eye[0] + s[1] * eye[1] + s[2] * eye[2]);
+		//ModelView[1][3] = -(u[0] * eye[0] + u[1] * eye[1] + u[2] * eye[2]);
+		//ModelView[2][3] = f[0] * eye[0] + f[1] * eye[1] + f[2] * eye[2];
+		//ModelView[3][3] = 1.f;
+		//return ModelView;
 	}
 
 	void Triangle(const Mat<4, 3, float>& clipc, IShader& shader, class Image& colorBuffer, float* zbuffer, const Mat4& viewport)
@@ -83,10 +125,10 @@ namespace TR
 		Vec2i bbMin(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
 		for (int i = 0; i < 3; ++i)
 		{
-			bbMin.x = std::max<int>(0, std::min<int>(bbMin.x, pts2[i].x));
-			bbMin.y = std::max<int>(0, std::min<int>(bbMin.y, pts2[i].y));
-			bbMax.x = std::min<int>(colorBuffer.GetWidth() - 1, std::max<int>(bbMax.x, pts2[i].x));
-			bbMax.y = std::min<int>(colorBuffer.GetHeight() - 1, std::max<int>(bbMax.y, pts2[i].y));
+			bbMin.x = std::max<int>(0, std::min<int>(bbMin.x, (int)pts2[i].x));
+			bbMin.y = std::max<int>(0, std::min<int>(bbMin.y, (int)pts2[i].y));
+			bbMax.x = std::min<int>(colorBuffer.GetWidth() - 1, std::max<int>(bbMax.x, (int)pts2[i].x));
+			bbMax.y = std::min<int>(colorBuffer.GetHeight() - 1, std::max<int>(bbMax.y, (int)pts2[i].y));
 		}
 
 		for (int i = bbMin.x; i <= bbMax.x; ++i)
@@ -99,6 +141,7 @@ namespace TR
 				{
 					continue;
 				}
+
 				Vec3f bc_clip(bc[0] / clipc[3][0], bc[1] / clipc[3][1], bc[2] / clipc[3][2]);
 				float z = 1.f / (bc_clip.x + bc_clip.y + bc_clip.z);
 				bc_clip *= z;
@@ -119,5 +162,4 @@ namespace TR
 			}
 		}
 	}
-
 }

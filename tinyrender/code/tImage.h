@@ -71,6 +71,10 @@ namespace TR
 		
 		Color Get(int x, int y) const
 		{
+			if (!mData || x < 0 || y < 0 || x >= mWidth || y >= mHeight)
+			{
+				return Color(128, 128, 128);
+			}
 			return Color(mData + (y * mWidth+x)*mBytespp, mBytespp);
 		}
 

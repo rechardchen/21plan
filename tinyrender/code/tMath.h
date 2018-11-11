@@ -25,11 +25,6 @@ namespace TR
 			return sqrtf(r);
 		}
 
-		Vec<DIM,T> normalize() const
-		{
-			return *this * (1 / length());
-		}
-
 		T m[DIM];
 	};
 
@@ -43,7 +38,7 @@ namespace TR
 		T& operator[](size_t i) { return (&x)[i]; }
 		const T& operator[](size_t i) const { return (&x)[i]; }
 
-		float length() const { return sqrtf(x*x + y * y); }
+		float length() const { return sqrtf(x * x + y * y); }
 		T x, y;
 	};
 
@@ -56,7 +51,7 @@ namespace TR
 		T& operator[](size_t i) { return (&x)[i]; }
 		const T& operator[](size_t i) const { return (&x)[i]; }
 
-		float length()const { return sqrtf(x*x + y * y + z * z); }
+		float length()const { return sqrtf(x * x + y * y + z * z); }
 
 		T x, y, z;
 	};
@@ -70,7 +65,7 @@ namespace TR
 		T& operator[](size_t i) { return (&x)[i]; }
 		const T& operator[](size_t i) const { return (&x)[i]; }
 
-		float length()const { return sqrtf(x*x + y * y + z * z + w*w); }
+		float length()const { return sqrtf(x * x + y * y + z * z + w * w); }
 
 		T x, y, z, w;
 	};
@@ -82,16 +77,18 @@ namespace TR
 		return v * (1 / v.length());
 	}
 
+	//dot product
 	template<size_t DIM, typename T>
-	Vec<DIM, T> operator*(const Vec<DIM, T>& lhs, const Vec<DIM, T>& rhs)
+	T operator*(const Vec<DIM, T>& lhs, const Vec<DIM, T>& rhs)
 	{
-		Vec<DIM, T> ret;
+		T ret = 0;
 		for (size_t i = 0; i < DIM; ++i)
 		{
-			ret[i] = lhs[i] * rhs[i];
+			ret += lhs[i] * rhs[i];
 		}
 		return ret;
 	}
+
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T> operator*(U lhs, const Vec<DIM, T>& rhs)
 	{
@@ -102,17 +99,13 @@ namespace TR
 		}
 		return ret;
 	}
+
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T> operator*(const Vec<DIM, T>& lhs, U rhs)
 	{
-		return operator*(rhs, lhs);
+		return rhs * lhs;
 	}
-	template<size_t DIM, typename T>
-	Vec<DIM, T>& operator*= (Vec<DIM, T>& lhs, const Vec<DIM, T>& rhs)
-	{
-		for (size_t i = 0; i < DIM; ++i) lhs[i] *= rhs[i];
-		return lhs;
-	}
+
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T>& operator*= (Vec<DIM, T>& lhs, U rhs)
 	{
@@ -130,6 +123,7 @@ namespace TR
 		}
 		return ret;
 	}
+
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T> operator+(const Vec<DIM, T>& lhs, U rhs)
 	{
@@ -137,11 +131,13 @@ namespace TR
 		for (size_t i = 0; i < DIM; ++i) ret[i] = lhs[i] + rhs;
 		return ret;
 	}
+
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T> operator+(U lhs, const Vec<DIM, T>& rhs)
 	{
-		return operator+(rhs, lhs);
+		return rhs + lhs;
 	}
+
 	template <size_t DIM, typename T>
 	Vec<DIM, T>& operator+=(Vec<DIM, T>& lhs, const Vec<DIM, T>& rhs)
 	{
@@ -151,6 +147,7 @@ namespace TR
 		}
 		return lhs;
 	}
+
 	template <size_t DIM, typename T, typename U>
 	Vec<DIM, T>& operator += (Vec<DIM, T>& lhs, U rhs)
 	{
@@ -168,6 +165,7 @@ namespace TR
 		}
 		return ret;
 	}
+
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T> operator-(const Vec<DIM, T>& lhs, U rhs)
 	{
@@ -175,6 +173,7 @@ namespace TR
 		for (size_t i = 0; i < DIM; ++i) ret[i] = lhs[i] - rhs;
 		return ret;
 	}
+
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T> operator-(U lhs, const Vec<DIM, T>& rhs)
 	{
@@ -182,6 +181,7 @@ namespace TR
 		for (size_t i = 0; i < DIM; ++i) ret[i] = lhs - rhs[i];
 		return ret;
 	}
+
 	template<size_t DIM, typename T>
 	Vec<DIM, T> operator-(const Vec<DIM, T>& lhs)
 	{
@@ -189,6 +189,7 @@ namespace TR
 		for (size_t i = 0; i < DIM; ++i) ret[i] = -lhs[i];
 		return ret;
 	}
+
 	template <size_t DIM, typename T>
 	Vec<DIM, T>& operator-=(Vec<DIM, T>& lhs, const Vec<DIM, T>& rhs)
 	{
@@ -198,6 +199,7 @@ namespace TR
 		}
 		return lhs;
 	}
+
 	template <size_t DIM, typename T, typename U>
 	Vec<DIM, T>& operator -= (Vec<DIM, T>& lhs, U rhs)
 	{
@@ -205,16 +207,6 @@ namespace TR
 		return lhs;
 	}
 
-	template<size_t DIM, typename T>
-	Vec<DIM, T> operator/(const Vec<DIM, T>& lhs, const Vec<DIM, T>& rhs)
-	{
-		Vec<DIM, T> ret;
-		for (size_t i = 0; i < DIM; ++i)
-		{
-			ret[i] = lhs[i] / rhs[i];
-		}
-		return ret;
-	}
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T> operator/(const Vec<DIM, T>& lhs, U rhs)
 	{
@@ -222,6 +214,7 @@ namespace TR
 		for (size_t i = 0; i < DIM; ++i) ret[i] = lhs[i] / rhs;
 		return ret;
 	}
+
 	template<size_t DIM, typename T, typename U>
 	Vec<DIM, T> operator/(U lhs, const Vec<DIM, T>& rhs)
 	{
@@ -229,15 +222,7 @@ namespace TR
 		for (size_t i = 0; i < DIM; ++i) ret[i] = lhs / rhs[i];
 		return ret;
 	}
-	template <size_t DIM, typename T>
-	Vec<DIM, T>& operator/=(Vec<DIM, T>& lhs, const Vec<DIM, T>& rhs)
-	{
-		for (size_t i = 0; i < DIM; ++i)
-		{
-			lhs[i] /= rhs[i];
-		}
-		return lhs;
-	}
+
 	template <size_t DIM, typename T, typename U>
 	Vec<DIM, T>& operator /= (Vec<DIM, T>& lhs, U rhs)
 	{
@@ -255,6 +240,7 @@ namespace TR
 		}
 		return ret;
 	}
+
 	template<size_t LEN, size_t DIM, typename T>
 	Vec<LEN, T> proj(const Vec<DIM, T>& v)
 	{
@@ -277,26 +263,17 @@ namespace TR
 	template<size_t NROW, size_t NCOL, typename T> struct Mat;
 
 	template<size_t DIM, typename T>
-	struct dt
+	T determinant(const Mat<DIM, DIM, T>& m)
 	{
-		static T det(const Mat<DIM, DIM, T>& m)
-		{
-			T ret = 0;
-			for (size_t i = 0; i < DIM; ++i)
-			{
-				ret += m[0][i] * m.cofactor(0, i);
-			}
-			return ret;
-		}
-	};
+		return m[0] * m.adjugate()[0];
+	}
+
 	template<typename T>
-	struct dt<1, T>
+	T determinant(const Mat<1, 1, T>& m)
 	{
-		static T det(const Mat<1, 1, T>& m)
-		{
-			return m[0][0];
-		}
-	};
+		return m[0][0];
+	}
+
 	template<size_t NROW, size_t NCOL, typename T>
 	struct Mat
 	{
@@ -319,14 +296,14 @@ namespace TR
 			Mat<NROW, NCOL, T> ret;
 			for (size_t r = 0; r < NROW; ++r)
 				for (size_t c = 0; c < NCOL; ++c)
-					ret[r][c] = (r == c) ? 1 : 0;
+					ret[r][c] = (r == c) ? T(1) : T(0);
 			return ret;
 		}
 
 		T det() const
 		{
 			static_assert(NROW == NCOL, "only square matrix has determinant");
-			return dt<NROW, T>::det(*this);
+			return determinant(*this);
 		}
 
 		Mat<NROW - 1, NCOL - 1, T> getMinor(size_t i, size_t j) const
@@ -346,11 +323,11 @@ namespace TR
 		{
 			if ((r + c) % 2)
 			{
-				return -dt<NROW - 1, T>::det(getMinor(r, c));
+				return -getMinor(r, c).det();
 			}
 			else
 			{
-				return dt<NROW - 1£¬T>::det(getMinor(r, c));
+				return getMinor(r, c).det();
 			}
 		}
 		
@@ -366,6 +343,7 @@ namespace TR
 			}
 			return ret;
 		}
+
 		Mat<NCOL, NROW, T> transpose() const
 		{
 			Mat<NCOL, NROW,T> ret;
@@ -379,13 +357,20 @@ namespace TR
 			return ret;
 		}
 
+		Mat<NROW, NCOL, T> inv_transpose() const
+		{
+			//static_assert(NROW == NCOL, "only square matrix has invert_transpose");
+			auto adjMat = adjugate();
+			T tmp = rows[0] * adjMat[0];
+			return 1 / tmp * adjMat;
+		}
+
 		Mat<NROW, NCOL, T> inv() const
 		{
 			static_assert(NROW == NCOL, "only square matrix has invert");
-			auto adjMat = adjugate();
-			T tmp = rows[0] * adjMat[0];
-			return 1 / tmp * adjMat.transpose();
+			return inv_transpose().transpose();
 		}
+
 		Vec<NCOL, T> rows[NROW];
 	};
 	
@@ -394,12 +379,7 @@ namespace TR
 		Vec<M, T> ret;
 		for (size_t i = 0; i < M; ++i)
 		{
-			T tmp = 0;
-			for (size_t j = 0; j < N; ++j)
-			{
-				tmp += m[i][j] * v[j];
-			}
-			ret[i] = tmp;
+			ret[i] = m[i] * v;
 		}
 		return ret;
 	}
@@ -420,6 +400,21 @@ namespace TR
 			}
 		}
 		return ret;
+	}
+
+	template<size_t M, size_t N, typename T, typename U> Mat<M, N, T> operator*(const Mat<M, N, T>& m, const U v)
+	{
+		Mat<M, N, T> ret;
+		for (size_t i = 0; i < M; ++i)
+		{
+			ret[i] = m[i] * v;
+		}
+		return ret;
+	}
+
+	template <size_t M, size_t N, typename T, typename U> Mat<M, N, T> operator*(const U v, const Mat<M, N, T>& m)
+	{
+		return m * v;
 	}
 
 	typedef Vec<2, int> Vec2i;
