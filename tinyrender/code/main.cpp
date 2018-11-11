@@ -66,10 +66,10 @@ int main(int argc, char* argv[])
 	float *zbuffer = (float*)TMalloc(sizeof(float)*WIDTH*HEIGHT);
 	for (int i = 0; i < WIDTH*HEIGHT; ++i)
 	{
-		zbuffer[i] = std::numeric_limits<float>::max();
+		zbuffer[i] = -std::numeric_limits<float>::max();
 	}
 
-	viewMatrix = LookAt(Vec3f(0, 0, -3), Vec3f(0, 0, 0), Vec3f(0, 1, 0));
+	viewMatrix = LookAt(Vec3f(0, 0, 3), Vec3f(0, 0, 0), Vec3f(0, 1, 0));
 	projMatrix = Frustum(-1, 1, 1, -1, 3, 10);
 	Mat4 viewPort = Viewport(0, 0, WIDTH, HEIGHT);
 	
