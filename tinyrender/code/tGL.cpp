@@ -142,18 +142,11 @@ namespace TR
 					continue;
 				}
 
-				//2018-11-11: notice! this code is uncorrect, should be memorized
-				/*Vec3f bc_clip(bc[0] / clipc[3][0], bc[1] / clipc[3][1], bc[2] / clipc[3][2]);
-				float z = 1.f / (bc_clip.x + bc_clip.y + bc_clip.z);
-				bc_clip *= z;
-				float depth = -z;*/
-
-				Vec3f bc_clip = Vec3f(bc.x / pts[0][3], bc.y / pts[1][3], bc.z / pts[2][3]);
-				bc_clip = bc_clip / (bc_clip.x + bc_clip.y + bc_clip.z);
-				float frag_depth = -1 * (clipc[2] * bc_clip);
-				//Vec3f z_inv(1.f / clipc[3][0], 1.f / clipc[3][1], 1.f / clipc[3][2]);
+				Vec3f bc_clip(bc[0] / clipc[3][0], bc[1] / clipc[3][1], bc[2] / clipc[3][2]);
+				float frag_depth = 1.f / (bc_clip.x + bc_clip.y + bc_clip.z);
+				bc_clip *= frag_depth;
 				float* depthPtr = &zbuffer[j*colorBuffer.GetWidth() + i];
-				if (frag_depth < *depthPtr)
+				if (frag_depth > *depthPtr)
 				{
 					continue;
 				}
