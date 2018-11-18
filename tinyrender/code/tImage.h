@@ -34,7 +34,12 @@ namespace TR
 			if (bpp < 4) memset(&rgba[bpp], 0, 4 - bpp);
 		}
 
-		unsigned char operator [] (int i)
+		unsigned char& operator [] (int i)
+		{
+			return rgba[i];
+		}
+
+		unsigned char operator[] (int i) const
 		{
 			return rgba[i];
 		}
